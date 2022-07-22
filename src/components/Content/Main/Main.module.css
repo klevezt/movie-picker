@@ -1,0 +1,14 @@
+.row-wrapper{
+    padding: 20px;
+    border-bottom: 1px solid #bbb;
+    display: flex;
+    align-items: flex-start;
+}
+
+.row-wrapper img{
+    max-width: 200px;
+}
+
+.row-wrapper .row-content{
+    padding: 20px;
+}
