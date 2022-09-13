@@ -71,9 +71,6 @@ const Main = () => {
                     </div>
                   </li>
                   <li className="nav-item">
-                    <div className="nav-link">Orders</div>
-                  </li>
-                  <li className="nav-item">
                     <div className="nav-link">
                       <FavoriteBorder className="me-2" />
                       Favorite
