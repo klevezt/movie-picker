@@ -1,91 +1,162 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { truncateString } from "../../Helpers/functions";
-import Pagination from "../../UI/Pagination/Pagination";
+// import Pagination from "../../UI/Pagination/Pagination";
 import SkeletonWithImage from "../../UI/Skeleton/SkeletonWithImage";
 import styles from "./Main.module.css";
-import { FavoriteBorder, Home } from "@mui/icons-material";
+
+// Import Swiper React components
+import SwiperCore, {
+  Virtual,
+  Navigation,
+  Pagination,
+  Lazy,
+  EffectCoverflow,
+  Autoplay,
+} from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+// import required modules
+// import { } from "swiper";
+import Header from "../../Layout/Header/Header";
+
+SwiperCore.use([Virtual, Navigation, Pagination]);
 
 const Main = () => {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [swiperRef, setSwiperRef] = useState(null);
+  const [swiperRef2, setSwiperRef2] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
     const exec = async () => {
-      const result = await (
-        await fetch(
-          `https://api.themoviedb.org/3/trending/movie/week?api_key=d7b36846ca305b29b4f8d87c2585d2a0&page=${page}`
-        )
-      ).json();
-      console.log(result.results);
-      setMovies(result.results);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      const array = [];
+      for (let index = 1; index <= 20; index++) {
+        const result = await (
+          await fetch(
+            `https://api.themoviedb.org/3/trending/movie/week?api_key=d7b36846ca305b29b4f8d87c2585d2a0&page=${index}`
+          )
+        ).json();
+        array.push(...result.results);
+      }
+      setMovies(array);
+      setIsLoading(false);
     };
     exec();
-  }, [page]);
+  }, []);
 
   const allMovies = movies.map((movie, i) => {
     return (
-      <div className="col-12" key={i}>
-        {isLoading ? (
-          <SkeletonWithImage key={i} />
-        ) : (
-          <div className={styles["row-wrapper"]}>
-            <img
-              src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-              alt={`movie-${movie.title}`}
-            />
-            <div className={styles["row-content"]}>
-              <h2>{movie.title}</h2>
-              <h4>Release date: {movie.release_date}</h4>
-              <p>{truncateString(movie.overview, 200)}</p>
-            </div>
-          </div>
-        )}
-      </div>
+      <SwiperSlide key={movie.title} virtualIndex={i}>
+        <img
+          src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+          alt={`movie-${movie.title}`}
+          className="mb-6 md:mb-0 swiper-lazy"
+        />
+        <div className={`${styles["row-content"]} row-content hidden`}>
+          <h2>{movie.title}</h2>
+          <h4>Release date: {movie.release_date}</h4>
+          <p>{truncateString(movie.overview, 200)}</p>
+        </div>
+      </SwiperSlide>
     );
   });
 
-  const onClickNext = (p) => {
-    setPage(p);
-  };
+  const allReverseMovies = movies.reverse().map((movie, i) => {
+    return (
+      <SwiperSlide key={movie.title} virtualIndex={i}>
+        <img
+          src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+          alt={`movie-${movie.title}`}
+          className="mb-6 md:mb-0 swiper-lazy"
+        />
+        <div className={`${styles["row-content"]} row-content hidden`}>
+          <h2>{movie.title}</h2>
+          <h4>Release date: {movie.release_date}</h4>
+          <p>{truncateString(movie.overview, 200)}</p>
+        </div>
+      </SwiperSlide>
+    );
+  });
 
   return (
-    <Fragment>
-      <div className="container">
-        <div className="row">
-          <div className="col-3 row">
-            <nav
-              id="sidebarMenu"
-              className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-            >
-              <div className="pt-3 sidebar-sticky">
-                <ul className="nav flex-column">
-                  <li className="nav-item">
-                    <div className="nav-link active" aria-current="page">
-                      <Home className="me-2" />
-                      Home
-                    </div>
-                  </li>
-                  <li className="nav-item">
-                    <div className="nav-link">
-                      <FavoriteBorder className="me-2" />
-                      Favorite
-                    </div>
-                  </li>
-                </ul>
+    <div className="container">
+      <div className="row mx-0">
+        {/* <Header /> */}
+
+        <div className="flex flex-wrap justify-between mt-5">
+          {isLoading ? (
+            <SkeletonWithImage />
+          ) : (
+            <>
+              <div className="w-full md:w-[49%] text-center bg-white/[0.3] shadow p-1.5 md:p-5 rounded mb-5">
+                <h2 className="m-0">Trending</h2>
+                <hr className="my-2 md:my-4" />
+                <Swiper
+                  onSwiper={setSwiperRef}
+                  effect={"coverflow"}
+                  grabCursor={true}
+                  centeredSlides={true}
+                  slidesPerView={3}
+                  virtual
+                  coverflowEffect={{
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 0,
+                    modifier: 2,
+                    slideShadows: false,
+                    scale: 0.7,
+                  }}
+                  autoplay={{
+                    delay: 4000,
+                    disableOnInteraction: false,
+                  }}
+                  modules={[Autoplay, EffectCoverflow]}
+                  className="mySwiper"
+                >
+                  {allMovies}
+                </Swiper>
               </div>
-            </nav>
-          </div>
-          <div className="col-7 row">{allMovies}</div>
-          <div className="col-2">RIGHT</div>
+              <div className="w-full md:w-[49%] text-center bg-white/[0.3] shadow p-1.5 md:p-5 rounded mb-5">
+                <h2 className="m-0">Trending</h2>
+                <hr className="my-2 md:my-4" />
+                <Swiper
+                  onSwiper={setSwiperRef2}
+                  effect={"coverflow"}
+                  grabCursor={true}
+                  centeredSlides={true}
+                  slidesPerView={3}
+                  virtual
+                  coverflowEffect={{
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 0,
+                    modifier: 2,
+                    slideShadows: false,
+                    scale: 0.7,
+                  }}
+                  autoplay={{
+                    delay: 4000,
+                    disableOnInteraction: false,
+                  }}
+                  modules={[Autoplay, EffectCoverflow]}
+                  className="mySwiper2"
+                >
+                  {allReverseMovies}
+                </Swiper>
+              </div>
+            </>
+          )}
         </div>
-        <Pagination current={page} onClickNext={onClickNext} />
       </div>
-    </Fragment>
+      {/* <Pagination current={page} onClickNext={onClickNext} /> */}
+    </div>
   );
 };
 
