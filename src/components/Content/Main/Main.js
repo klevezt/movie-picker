@@ -28,6 +28,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
 
 const Main = () => {
   const [movies, setMovies] = useState([]);
+  const [movies2, setMovies2] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [swiperRef, setSwiperRef] = useState(null);
@@ -37,15 +38,23 @@ const Main = () => {
     setIsLoading(true);
     const exec = async () => {
       const array = [];
+      const array2 = [];
       for (let index = 1; index <= 20; index++) {
         const result = await (
           await fetch(
             `https://api.themoviedb.org/3/trending/movie/week?api_key=d7b36846ca305b29b4f8d87c2585d2a0&page=${index}`
           )
         ).json();
+        const result2 = await (
+          await fetch(
+            `https://api.themoviedb.org/3/trending/tv/week?api_key=d7b36846ca305b29b4f8d87c2585d2a0&page=${index}`
+          )
+        ).json();
         array.push(...result.results);
+        array2.push(...result2.results);
       }
       setMovies(array);
+      setMovies2(array2);
       setIsLoading(false);
     };
     exec();
@@ -53,7 +62,11 @@ const Main = () => {
 
   const allMovies = movies.map((movie, i) => {
     return (
-      <SwiperSlide key={movie.title} virtualIndex={i}>
+      <SwiperSlide
+        key={movie.title}
+        virtualIndex={i}
+        className="swiper-no-swiping"
+      >
         <img
           src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
           alt={`movie-${movie.title}`}
@@ -68,9 +81,13 @@ const Main = () => {
     );
   });
 
-  const allReverseMovies = movies.reverse().map((movie, i) => {
+  const allTvMovies = movies2.map((movie, i) => {
     return (
-      <SwiperSlide key={movie.title} virtualIndex={i}>
+      <SwiperSlide
+        key={movie.title}
+        virtualIndex={i}
+        className="swiper-no-swiping"
+      >
         <img
           src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
           alt={`movie-${movie.title}`}
@@ -86,25 +103,26 @@ const Main = () => {
   });
 
   return (
-    <div className="container">
+    <div className="container-xl">
       <div className="row mx-0">
         {/* <Header /> */}
 
-        <div className="flex flex-wrap justify-between mt-5">
+        <div className="flex flex-wrap justify-between mt-5 bg-white/[0.3] shadow px-1.5 md:px-5 rounded mb-5">
           {isLoading ? (
             <SkeletonWithImage />
           ) : (
             <>
-              <div className="w-full md:w-[49%] text-center bg-white/[0.3] shadow p-1.5 md:p-5 rounded mb-5">
-                <h2 className="m-0">Trending</h2>
-                <hr className="my-2 md:my-4" />
+              <h2 className="text-5xl w-100 text-center my-10">Trending</h2>
+              <div className="w-full md:w-[49%] text-center shadow p-1.5 md:p-5 rounded mb-5">
+                <h2 className="m-0">Movies</h2>
+                <hr className="my-1.5 md:my-6" />
                 <Swiper
                   onSwiper={setSwiperRef}
                   effect={"coverflow"}
-                  grabCursor={true}
                   centeredSlides={true}
                   slidesPerView={3}
                   virtual
+                  noSwiping
                   coverflowEffect={{
                     rotate: 0,
                     stretch: 0,
@@ -124,14 +142,14 @@ const Main = () => {
                 </Swiper>
               </div>
               <div className="w-full md:w-[49%] text-center bg-white/[0.3] shadow p-1.5 md:p-5 rounded mb-5">
-                <h2 className="m-0">Trending</h2>
-                <hr className="my-2 md:my-4" />
+                <h2 className="m-0">TV Show</h2>
+                <hr className="my-1.5 md:my-6" />
                 <Swiper
                   onSwiper={setSwiperRef2}
                   effect={"coverflow"}
-                  grabCursor={true}
                   centeredSlides={true}
                   slidesPerView={3}
+                  noSwiping
                   virtual
                   coverflowEffect={{
                     rotate: 0,
@@ -148,7 +166,7 @@ const Main = () => {
                   modules={[Autoplay, EffectCoverflow]}
                   className="mySwiper2"
                 >
-                  {allReverseMovies}
+                  {allTvMovies}
                 </Swiper>
               </div>
             </>
