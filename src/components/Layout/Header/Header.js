@@ -1,36 +1,40 @@
-import { FavoriteBorder, Home, ListAlt } from '@mui/icons-material';
-import React from 'react'
-import styles from './Header.module.css';
+import { AppBar, Container, Toolbar } from "@mui/material";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className={styles["app-header"]}>
-      <nav className="d-md-block bg-light collapse">
-        <div className="pt-3 ">
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <div className="nav-link active" aria-current="page">
-                <Home className="me-2" />
-                Home
-              </div>
-            </li>
-            <li className="nav-item">
-              <div className="nav-link">
-                <FavoriteBorder className="me-2" />
-                Favorite
-              </div>
-            </li>
-            <li className="nav-item">
-              <div className="nav-link">
-                <ListAlt className="me-2" />
-                Watchlist
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
+    <AppBar position="fixed">
+      <Container maxWidth="xl">
+        <Toolbar className="p-0">
+          <div className="w-100 flex justify-between items-center">
+            <div>
+              <ul className="pl-0 mb-0 uppercase">
+                <NavLink
+                  to={"/"}
+                  className="mx-2 text-slate-50 hover:text-black no-underline"
+                >
+                  Home
+                </NavLink>
+              </ul>
+            </div>
+            <div>
+              <ul className="pl-0 mb-0 uppercase flex flex-row">
+                <li>
+                  <NavLink
+                    to={"/register"}
+                    className="mx-2 text-slate-50 hover:text-black no-underline"
+                  >
+                    Register
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
-}
+};
 
-export default Header
+export default Header;

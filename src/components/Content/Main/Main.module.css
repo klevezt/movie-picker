@@ -12,3 +12,19 @@
 .row-wrapper .row-content{
     padding: 20px;
 }
+
+.kp-index-wrapper {
+    max-width: 50%;
+    width: 50px;
+}
+
+.kp-index-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    opacity: 0.30;
+}

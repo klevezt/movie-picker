@@ -9,7 +9,6 @@ import SwiperCore, {
   Virtual,
   Navigation,
   Pagination,
-  Lazy,
   EffectCoverflow,
   Autoplay,
 } from "swiper";
@@ -19,10 +18,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
-// import required modules
-// import { } from "swiper";
-import Header from "../../Layout/Header/Header";
 
 SwiperCore.use([Virtual, Navigation, Pagination]);
 
@@ -63,7 +58,7 @@ const Main = () => {
   const allMovies = movies.map((movie, i) => {
     return (
       <SwiperSlide
-        key={movie.title}
+        key={movie.id}
         virtualIndex={i}
         className="swiper-no-swiping"
       >
@@ -84,7 +79,7 @@ const Main = () => {
   const allTvMovies = movies2.map((movie, i) => {
     return (
       <SwiperSlide
-        key={movie.title}
+        key={movie.id}
         virtualIndex={i}
         className="swiper-no-swiping"
       >
@@ -103,16 +98,34 @@ const Main = () => {
   });
 
   return (
-    <div className="container-xl">
-      <div className="row mx-0">
-        {/* <Header /> */}
-
-        <div className="flex flex-wrap justify-between mt-5 bg-white/[0.3] shadow px-1.5 md:px-5 rounded mb-5">
-          {isLoading ? (
-            <SkeletonWithImage />
-          ) : (
-            <>
-              <h2 className="text-5xl w-100 text-center my-10">Trending</h2>
+    <>
+      <div className="relative">
+        <div className={styles["kp-index-wrapper"]}>
+          <div className="absolute bottom-16 left-[5vw] right-[5vw] text-center md:left-1/2 md:-translate-x-1/2 h-auto text-white font-custom ">
+            <h1 className="text-6xl sm:text-6xl md:text-[7vw] ">Movie Pick</h1>
+            <p className="text-2xl">Enjoy your favorite movies and shows</p>
+          </div>
+        </div>
+        <div
+          className="h-[70vh]"
+          style={{
+            backgroundRepeat: "no-repeat",
+            width: "100%",
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            backgroundImage: "url(assets/images/hero.jpg)",
+            zIndex: "-1",
+          }}
+          alt="index-banner"
+        ></div>
+      </div>
+      <div className="my-16 py-16 py-32 bg-white/[0.15] px-1.5 md:px-5 rounded">
+        {isLoading ? (
+          <SkeletonWithImage />
+        ) : (
+          <div className="container-xl">
+            <h2 className="text-5xl w-100 text-center my-10">Trending</h2>
+            <div className="flex justify-between">
               <div className="w-full md:w-[49%] text-center shadow p-1.5 md:p-5 rounded mb-5">
                 <h2 className="m-0">Movies</h2>
                 <hr className="my-1.5 md:my-6" />
@@ -142,7 +155,7 @@ const Main = () => {
                 </Swiper>
               </div>
               <div className="w-full md:w-[49%] text-center bg-white/[0.3] shadow p-1.5 md:p-5 rounded mb-5">
-                <h2 className="m-0">TV Show</h2>
+                <h2 className="m-0">TV Shows</h2>
                 <hr className="my-1.5 md:my-6" />
                 <Swiper
                   onSwiper={setSwiperRef2}
@@ -169,12 +182,11 @@ const Main = () => {
                   {allTvMovies}
                 </Swiper>
               </div>
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
       </div>
-      {/* <Pagination current={page} onClickNext={onClickNext} /> */}
-    </div>
+    </>
   );
 };
 
