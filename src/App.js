@@ -4,21 +4,34 @@ import { Routes, Route } from "react-router-dom";
 import Register from "./components/Content/Register/Register";
 import Footer from "./components/Layout/Footer/Footer";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { rose } from "@mui/material/colors";
-
-
+import SignIn from "./components/Content/SignIn/SignIn";
 
 const App = () => {
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: rose,
+  const theme = createTheme({
+    typography: {
+      fontFamily: [
+        "Lobster",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        '"Segoe UI"',
+        "Roboto",
+        '"Helvetica Neue"',
+        "Arial",
+        "sans-serif",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(","),
     },
-    secondary: {
-      main: "#ff9800",
+    palette: {
+      primary: {
+        main: "#f43f5e",
+      },
+      secondary: {
+        main: "#ff9800",
+      },
     },
-  },
-});
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -36,6 +49,7 @@ const theme = createTheme({
         <Header />
         <Routes>
           <Route path="/register" element={<Register />}></Route>
+          <Route path="/login" element={<SignIn />}></Route>
           <Route path="/" element={<Main />}></Route>
         </Routes>
         <Footer />

@@ -9,7 +9,7 @@ const Header = () => {
         <Toolbar className="p-0">
           <div className="w-100 flex justify-between items-center">
             <div>
-              <ul className="pl-0 mb-0 uppercase">
+              <ul className="pl-0 mb-0">
                 <NavLink
                   to={"/"}
                   className="mx-2 text-slate-50 hover:text-black no-underline"
@@ -19,7 +19,15 @@ const Header = () => {
               </ul>
             </div>
             <div>
-              <ul className="pl-0 mb-0 uppercase flex flex-row">
+              <ul className="pl-0 mb-0 flex flex-row">
+                <li>
+                  <NavLink
+                    to={"/login"}
+                    className="mx-2 text-slate-50 hover:text-black no-underline"
+                  >
+                    Sign in
+                  </NavLink>
+                </li>
                 <li>
                   <NavLink
                     to={"/register"}
