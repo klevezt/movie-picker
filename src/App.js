@@ -1,37 +1,38 @@
-import Main from "./components/Content/Main/Main";
-import Header from "./components/Layout/Header/Header";
-import { Routes, Route } from "react-router-dom";
-import Register from "./components/Content/Register/Register";
+import HeaderOut from "./components/Layout/Header/HeaderOut";
+import HeaderIn from "./components/Layout/Header/HeaderIn";
 import Footer from "./components/Layout/Footer/Footer";
 import { createTheme, ThemeProvider } from "@mui/material";
-import SignIn from "./components/Content/SignIn/SignIn";
+import { useSelector } from "react-redux";
+import Routes from "./components/Content/Routes/Routes";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      "Lobster",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+  },
+  palette: {
+    primary: {
+      main: "#f43f5e",
+    },
+    secondary: {
+      main: "#ff9800",
+    },
+  },
+});
 
 const App = () => {
-  const theme = createTheme({
-    typography: {
-      fontFamily: [
-        "Lobster",
-        "-apple-system",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
-    },
-    palette: {
-      primary: {
-        main: "#f43f5e",
-      },
-      secondary: {
-        main: "#ff9800",
-      },
-    },
-  });
+  const authenticated = useSelector((state) => state.user.authenticated);
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,12 +47,8 @@ const App = () => {
           zIndex: "-1",
         }}
       >
-        <Header />
-        <Routes>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/login" element={<SignIn />}></Route>
-          <Route path="/" element={<Main />}></Route>
-        </Routes>
+        {authenticated ? <HeaderIn /> : <HeaderOut />}
+        <Routes />
         <Footer />
       </div>
     </ThemeProvider>

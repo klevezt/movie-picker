@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useState } from "react";
-import useLengthValidator from "../../_hooks/useValidator";
+import useLengthValidator from "../../../_hooks/useValidator";
 import PasswordCondition from "./PasswordCondition";
 import styles from "./Register.module.css";
 

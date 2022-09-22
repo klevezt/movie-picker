@@ -1,15 +1,28 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { authenticateUser } from "../../../../store/slices/userSlice";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+  };
+
+  const handleAuthentication = (e) => {
+    e.preventDefault();
+    dispatch(authenticateUser());
+    navigate("/home");
   };
 
   return (
@@ -27,7 +40,7 @@ const SignIn = () => {
           }}
         ></div>
         <div className="absolute left-[5vw] top-[50%] w-[35vw] -translate-y-1/2 bg-customDark rounded shadow text-white">
-          <form className="p-10">
+          <form className="p-10" onSubmit={handleAuthentication}>
             <h2 className="text-5xl text-center">Enjoy the latest movies </h2>
             <hr className="my-10" />
             <div className="row g-3 align-items-center mb-4">
@@ -44,7 +57,7 @@ const SignIn = () => {
                   aria-describedby="passwordHelpInline"
                   value={email}
                   onChange={handleEmailChange}
-                  required
+                  // required
                 />
               </div>
             </div>
@@ -64,7 +77,7 @@ const SignIn = () => {
                   minLength={8}
                   maxLength={20}
                   onChange={handlePasswordChange}
-                  required
+                  // required
                 />
               </div>
             </div>

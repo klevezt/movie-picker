@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 // import Pagination from "../../UI/Pagination/Pagination";
 import styles from "./Main.module.css";
 
@@ -9,53 +9,32 @@ import SwiperCore, { Virtual, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import Headline from "../../UI/Section/Headline";
-import MainSection from "../../_hoc/MainSection";
-import IndexCarouselCoverFlow from "../../UI/Carousel/IndexCarouselCoverFlow";
-import IndexCarouselSlider from "../../UI/Carousel/IndexCarouselSlider";
+import Headline from "../../../UI/Section/Headline";
+import MainSection from "../../../_hoc/MainSection";
+import IndexCarouselCoverFlow from "../../../UI/Carousel/IndexCarouselCoverFlow";
+import IndexCarouselSlider from "../../../UI/Carousel/IndexCarouselSlider";
+import useFetch from "../../../_hooks/useFetch";
 
 SwiperCore.use([Virtual, Navigation, Pagination]);
 
 const Main = () => {
-  const [weeklyMovies, setWeeklyMovies] = useState([]);
-  const [weeklyShows, setWeeklyShows] = useState([]);
-  const [popularMovies, setPopularMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [weeklyMovies, isLoading, list] = useFetch(
+    `https://api.themoviedb.org/3/trending/movie/week`
+  );
+
+  const [weeklyShows, isLoading2, list2] = useFetch(
+    `https://api.themoviedb.org/3/trending/tv/week`
+  );
+
+  const [popularMovies, isLoading3, list3] = useFetch(
+    `https://api.themoviedb.org/3/movie/popular`
+  );
 
   useEffect(() => {
-    setIsLoading(true);
-    const exec = async () => {
-      const array = [];
-      const array2 = [];
-      const popularMoviesArray = [];
-      for (let index = 1; index <= 20; index++) {
-        const tmpWeeklyMovies = await (
-          await fetch(
-            `https://api.themoviedb.org/3/trending/movie/week?api_key=d7b36846ca305b29b4f8d87c2585d2a0&page=${index}`
-          )
-        ).json();
-        const tmpWeeklyShows = await (
-          await fetch(
-            `https://api.themoviedb.org/3/trending/tv/week?api_key=d7b36846ca305b29b4f8d87c2585d2a0&page=${index}`
-          )
-        ).json();
-        const tmpPopular = await (
-          await fetch(
-            `https://api.themoviedb.org/3/movie/popular?api_key=d7b36846ca305b29b4f8d87c2585d2a0&page=${index}`
-          )
-        ).json();
-
-        array.push(...tmpWeeklyMovies.results);
-        array2.push(...tmpWeeklyShows.results);
-        popularMoviesArray.push(...tmpPopular.results);
-      }
-      setWeeklyMovies(array);
-      setWeeklyShows(array2);
-      setPopularMovies(popularMoviesArray);
-      setIsLoading(false);
-    };
-    exec();
-  }, []);
+    list();
+    list2();
+    list3();
+  }, [list, list2, list3]);
 
   return (
     <>
@@ -82,7 +61,7 @@ const Main = () => {
         <Headline title="Popular" />
         <div className="flex justify-between">
           <IndexCarouselSlider
-            isLoading={isLoading}
+            isLoading={isLoading3}
             content={popularMovies}
             className="w-full text-center shadow p-1.5 md:p-5 rounded mb-5"
           />
@@ -98,7 +77,7 @@ const Main = () => {
             className="w-full md:w-[49%] text-center shadow p-1.5 md:p-5 rounded mb-5"
           />
           <IndexCarouselCoverFlow
-            isLoading={isLoading}
+            isLoading={isLoading2}
             content={weeklyShows}
             headline="TV Shows"
             className="w-full md:w-[49%] text-center shadow p-1.5 md:p-5 rounded mb-5"

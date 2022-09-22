@@ -34,7 +34,7 @@ const IndexCarouselCoverFlow = ({
     <div className={className}>
       {headline && (
         <>
-          <h2 className="m-0 text-2xl">{headline}</h2>
+          <h2 className="m-0 text-3xl">{headline}</h2>
           <hr className="my-1.5 md:my-6" />
         </>
       )}
