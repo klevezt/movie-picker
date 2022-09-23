@@ -1,43 +1,17 @@
 import { Search } from "@mui/icons-material";
-import React, { useEffect, useRef, useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setActionMovies,
-  setHorrorMovies,
-  setPopularMovies,
-} from "../../../../store/slices/moviesSlice";
+import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+
 import IndexCarouselSlider from "../../../UI/Carousel/IndexCarouselSlider";
 import Headline from "../../../UI/Section/Headline";
 import MainSection from "../../../_hoc/MainSection";
-import useFetch from "../../../_hooks/useFetch";
 
 const Home = () => {
   const [searchFocused, setSearchFocused] = useState(false);
-  const authenticated = useSelector((state) => state.user.authenticated);
+  const popularMovies = useSelector((state) => state.movies.popularMovies);
+  const actionMovies = useSelector((state) => state.movies.actionMovies);
+  const horrorMovies = useSelector((state) => state.movies.horrorMovies);
   const searchRef = useRef(null);
-  const fetchRef = useRef(() => {});
-  const dispatch = useDispatch();
-
-  const [popularMovies, isLoading, list] = useFetch(
-    `https://api.themoviedb.org/3/movie/popular`,
-    "",
-    10
-  );
-
-  const [actionMovies, isLoading2, list2] = useFetch(
-    `https://api.themoviedb.org/3/discover/movie`,
-    new URLSearchParams({
-      with_genres: "28",
-    }),
-    10
-  );
-  const [horrorMovies, isLoading3, list3] = useFetch(
-    `https://api.themoviedb.org/3/discover/movie`,
-    new URLSearchParams({
-      with_genres: "27",
-    }),
-    10
-  );
 
   const searchFocus = () => {
     setSearchFocused(true);
@@ -46,20 +20,6 @@ const Home = () => {
     setSearchFocused(false);
   };
 
-  fetchRef.current = useCallback(() => {
-    list();
-    list2();
-    list3();
-    dispatch(setPopularMovies(popularMovies));
-    dispatch(setActionMovies(actionMovies));
-    dispatch(setHorrorMovies(horrorMovies));
-  }, [list, list2, list3, dispatch, popularMovies, actionMovies, horrorMovies]); 
-
-  useEffect(() => {
-    fetchRef.current();
-    console.log("runn");
-  }, [authenticated]); 
- 
   return (
     <>
       <MainSection>
@@ -88,7 +48,7 @@ const Home = () => {
           <hr />
           <div className="flex justify-between">
             <IndexCarouselSlider
-              isLoading={isLoading}
+              isLoading={false}
               content={popularMovies}
               slidesPerView={8}
               spaceBetween={1}
@@ -103,7 +63,7 @@ const Home = () => {
           <hr />
           <div className="flex justify-between">
             <IndexCarouselSlider
-              isLoading={isLoading2}
+              isLoading={false}
               content={actionMovies}
               slidesPerView={8}
               spaceBetween={1}
@@ -119,7 +79,7 @@ const Home = () => {
           <hr />
           <div className="flex justify-between">
             <IndexCarouselSlider
-              isLoading={isLoading3}
+              isLoading={false}
               content={horrorMovies}
               slidesPerView={8}
               spaceBetween={1}
