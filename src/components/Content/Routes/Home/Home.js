@@ -1,32 +1,17 @@
 import { Search } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
-import React from "react";
-import { useState } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
-import { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+
 import IndexCarouselSlider from "../../../UI/Carousel/IndexCarouselSlider";
 import Headline from "../../../UI/Section/Headline";
 import MainSection from "../../../_hoc/MainSection";
-import useFetch from "../../../_hooks/useFetch";
 
 const Home = () => {
   const [searchFocused, setSearchFocused] = useState(false);
+  const popularMovies = useSelector((state) => state.movies.popularMovies);
+  const actionMovies = useSelector((state) => state.movies.actionMovies);
+  const horrorMovies = useSelector((state) => state.movies.horrorMovies);
   const searchRef = useRef(null);
-  const fetchRef = useRef(() => {});
-
-  const [popularMovies, isLoading, list] = useFetch(
-    `https://api.themoviedb.org/3/movie/popular`,
-    10
-  );
-
-  const [actionMovies, isLoading2, list2] = useFetch(
-    `https://api.themoviedb.org/3/discover/movie`,
-    new URLSearchParams({
-      with_genres: "28",
-    }),
-    10
-  );
 
   const searchFocus = () => {
     setSearchFocused(true);
@@ -34,15 +19,6 @@ const Home = () => {
   const searchBlur = () => {
     setSearchFocused(false);
   };
-
-  fetchRef.current = useCallback(() => {
-    list();
-    list2();
-  }, [list, list2]);
-
-  useEffect(() => {
-    fetchRef.current();
-  }, []);
 
   return (
     <>
@@ -72,7 +48,7 @@ const Home = () => {
           <hr />
           <div className="flex justify-between">
             <IndexCarouselSlider
-              isLoading={isLoading}
+              isLoading={false}
               content={popularMovies}
               slidesPerView={8}
               spaceBetween={1}
@@ -87,12 +63,27 @@ const Home = () => {
           <hr />
           <div className="flex justify-between">
             <IndexCarouselSlider
-              isLoading={isLoading2}
+              isLoading={false}
               content={actionMovies}
               slidesPerView={8}
               spaceBetween={1}
               centeredSlides={false}
-              reverseDirection
+              direction="rtl"
+              noSwiping={false}
+              className="w-full text-center shadow p-1.5 md:p-5 rounded mb-5"
+            />
+          </div>
+        </div>
+        <div className="my-5 bg-white rounded shadow p-10">
+          <h2 className="text-4xl my-3">Horror</h2>
+          <hr />
+          <div className="flex justify-between">
+            <IndexCarouselSlider
+              isLoading={false}
+              content={horrorMovies}
+              slidesPerView={8}
+              spaceBetween={1}
+              centeredSlides={false}
               noSwiping={false}
               className="w-full text-center shadow p-1.5 md:p-5 rounded mb-5"
             />
