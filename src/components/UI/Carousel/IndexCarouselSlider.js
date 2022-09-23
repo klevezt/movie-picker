@@ -7,7 +7,14 @@ import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux";
 
-const IndexCarouselSlider = ({ isLoading, content, headline, className, reverseDirection}) => {
+const IndexCarouselSlider = ({
+  isLoading,
+  content,
+  headline,
+  className,
+  reverseDirection,
+  direction,
+}) => {
   const [swiperRef, setSwiperRef] = useState(null);
   const authenticated = useSelector((state) => state.user.authenticated);
 
@@ -64,6 +71,7 @@ const IndexCarouselSlider = ({ isLoading, content, headline, className, reverseD
           lazy
           navigation={true}
           speed={1000}
+          dir={direction}
           autoplay={{
             delay: 2000,
             disableOnInteraction: false,

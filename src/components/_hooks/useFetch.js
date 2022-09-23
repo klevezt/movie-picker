@@ -7,7 +7,6 @@ const useFetch = (url, params = "", pages = 20) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const list = useCallback(async () => {
-    console.log("++++");
     const newArr = [];
 
     for (let index = 1; index <= pages; index++) {
@@ -20,7 +19,7 @@ const useFetch = (url, params = "", pages = 20) => {
     setData(newArr);
     setIsLoading(false);
 
-  }, [url, params, pages]);
+  }, []);
 
   return [data, isLoading, list];
 };
