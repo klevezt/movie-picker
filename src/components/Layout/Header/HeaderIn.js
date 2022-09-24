@@ -28,7 +28,7 @@ const Header = () => {
                 </li>
                 <li>
                   <NavLink
-                    to={"/"}
+                    to={"/favorite"}
                     className="mx-2 text-slate-50 hover:text-black no-underline"
                   >
                     Favorite

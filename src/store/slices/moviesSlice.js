@@ -4,6 +4,7 @@ const initialState = {
   popularMovies: [],
   actionMovies: [],
   horrorMovies: [],
+  favoriteMovies: [],
 };
 
 export const moviesSlice = createSlice({
@@ -19,9 +20,16 @@ export const moviesSlice = createSlice({
     setHorrorMovies: (state, action) => {
       state.horrorMovies = action.payload;
     },
+    setFavoriteMovies: (state, action) => {
+      state.favoriteMovies.push(action.payload);
+    },
   },
 });
 
-export const { setPopularMovies, setActionMovies, setHorrorMovies } =
-  moviesSlice.actions;
+export const {
+  setPopularMovies,
+  setActionMovies,
+  setHorrorMovies,
+  setFavoriteMovies,
+} = moviesSlice.actions;
 export default moviesSlice.reducer;

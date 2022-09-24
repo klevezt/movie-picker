@@ -4,7 +4,7 @@ const Headline = ({ title }) => {
   return (
     <div className="flex w-100 justify-center items-center mb-10">
       <img
-        src="assets/images/section.png"
+        src="/assets/images/section.png"
         alt="headline-logo"
         style={{
           objectFit: "contain",

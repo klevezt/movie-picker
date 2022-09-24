@@ -6,6 +6,8 @@ import SkeletonWithImage from "../Skeleton/SkeletonWithImage";
 import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux";
+import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 const IndexCarouselSlider = ({
   isLoading,
@@ -43,11 +45,13 @@ const IndexCarouselSlider = ({
           !authenticated ? "swiper-no-swiping" : ""
         } hover:scale-110 hover:z-10 duration-800`}
       >
-        <img
-          src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-          alt={`movie-${movie.title}`}
-          className="mb-6 md:mb-0 swiper-lazy hover:cursor-pointer "
-        />
+        <NavLink to={`/movie/${movie.id}`}>
+          <img
+            src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+            alt={`movie-${movie.title}`}
+            className="mb-6 md:mb-0 swiper-lazy hover:cursor-pointer "
+          />
+        </NavLink>
       </SwiperSlide>
     );
   });
