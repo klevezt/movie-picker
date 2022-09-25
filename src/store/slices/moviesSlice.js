@@ -20,8 +20,13 @@ export const moviesSlice = createSlice({
     setHorrorMovies: (state, action) => {
       state.horrorMovies = action.payload;
     },
-    setFavoriteMovies: (state, action) => {
+    addFavoriteMovie: (state, action) => {
       state.favoriteMovies.push(action.payload);
+    },
+    removeFavoriteMovie: (state, action) => {
+      state.favoriteMovies = state.favoriteMovies.filter(
+        (movie) => movie.id.toString() !== action.payload.id.toString()
+      );
     },
   },
 });
@@ -30,6 +35,7 @@ export const {
   setPopularMovies,
   setActionMovies,
   setHorrorMovies,
-  setFavoriteMovies,
+  addFavoriteMovie,
+  removeFavoriteMovie,
 } = moviesSlice.actions;
 export default moviesSlice.reducer;
