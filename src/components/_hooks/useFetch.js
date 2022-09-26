@@ -18,8 +18,7 @@ const useFetch = (url, params = "", pages = 20) => {
     }
     setData(newArr);
     setIsLoading(false);
-
-  }, []);
+  }, [url, params, pages]);
 
   return [data, isLoading, list];
 };

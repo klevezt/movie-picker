@@ -11,7 +11,7 @@ import "swiper/css/thumbs";
 // import  "./styling.css";
 
 // import required modules
-import { FreeMode, Navigation, Thumbs } from "swiper";
+import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper";
 import { useEffect } from "react";
 import useFetchSingleMovie from "../../_hooks/useFetchSingleMovie";
 import { useCallback } from "react";
@@ -32,22 +32,19 @@ export const MovieThumbsSlider = ({ movie }) => {
     fetchRef.current();
   }, []);
 
-  const swipeSlider = images.posters?.map((image, i) => {
-    return (
-      <SwiperSlide key={i}>
-        <img
-          src={`https://image.tmdb.org/t/p/original${image.file_path}`}
-          width="250px"
-        />
-      </SwiperSlide>
-    );
+  const swipeSlider = images.backdrops?.map((image, i) => {
+    if (image.iso_639_1 === null) {
+      return (
+        <SwiperSlide key={i}>
+          <img
+            src={`https://image.tmdb.org/t/p/original${image.file_path}`}
+            alt={image.file_path}
+          />
+        </SwiperSlide>
+      );
+    }
+    return null;
   });
-
-  // useEffect(()=>{
-  //     const exec = async () => {
-  //     }
-  //     exec();
-  // },[])
 
   return (
     <>
@@ -57,20 +54,25 @@ export const MovieThumbsSlider = ({ movie }) => {
           "--swiper-pagination-color": "#fff",
         }}
         loop={true}
-        spaceBetween={10}
         navigation={true}
+        autoplay={{
+          delay: 4000,
+        }}
         thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper2 border-2"
+        modules={[Autoplay, FreeMode, Navigation, Thumbs]}
+        className="mySwiper2 mb-1"
       >
         {swipeSlider}
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
         loop={true}
-        spaceBetween={10}
-        slidesPerView={4}
+        spaceBetween={5}
+        slidesPerView={5}
         freeMode={true}
+        autoplay={{
+          delay: 2000,
+        }}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper3"

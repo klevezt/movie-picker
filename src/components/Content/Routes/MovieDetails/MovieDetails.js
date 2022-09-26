@@ -1,8 +1,5 @@
-import React from "react";
-import { useState } from "react";
-import { useCallback } from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
+import { Chip } from "@mui/material";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import {
@@ -10,33 +7,58 @@ import {
   removeFavoriteMovie,
 } from "../../../../store/slices/moviesSlice";
 import { MovieThumbsSlider } from "../../../UI/Carousel/MovieThumbsSlider";
+import Headline from "../../../UI/Section/Headline";
 import MainSection from "../../../_hoc/MainSection";
 import useFetchSingleMovie from "../../../_hooks/useFetchSingleMovie";
+import parse from "html-react-parser";
+
+const db = require("../../../../movieVideoLinks.json");
 
 const MovieDetails = () => {
   const fetchRef = useRef(() => {});
   const favorite = useSelector((state) => state.movies.favoriteMovies);
-  const [isMovieFavorite, setIsMovieFavorite] = useState(false);
+  const [isMovieFavorite, setIsMovieFavorite] = useState(null);
+  const [movieVideo, setMovieVideo] = useState("");
 
   const params = useParams();
   const dispatch = useDispatch();
   const [movie, isLoading, list] = useFetchSingleMovie(
     `https://api.themoviedb.org/3/movie/${params.movieId}`
   );
+  const [fetchMovieTrailer, isLoading2, list2] = useFetchSingleMovie(
+    `https://api.themoviedb.org/3/movie/${params.movieId}/videos`
+  );
+
+  const trailerKey = fetchMovieTrailer?.results?.filter(
+    (movie) =>
+      movie.site === "YouTube" &&
+      movie.type === "Trailer" &&
+      movie.name === "Official Trailer"
+  )[0]?.key;
 
   fetchRef.current = useCallback(() => {
     list();
-  }, [list]);
+    list2();
+  }, [list, list2]);
 
   useEffect(() => {
     fetchRef.current();
+
+    db.find((db) => {
+      if (db.id.toString() === params.movieId.toString()) {
+        setMovieVideo(db.iframe);
+        return true;
+      }
+      return false;
+    });
     favorite.find((fav) => {
       if (fav.id.toString() === params.movieId.toString()) {
         setIsMovieFavorite(true);
         return true;
       }
+      return false;
     });
-  }, []);
+  }, [favorite, params]);
 
   const handleAddFavorite = () => {
     dispatch(addFavoriteMovie(movie));
@@ -54,7 +76,6 @@ const MovieDetails = () => {
       <MainSection className="bg-white min-h-[100vh] mb-0">
         <div className="flex">
           <div className="basis-1/3">
-            {/* {!isLoading && <MovieThumbsSlider movie={movie} />} */}
             <img
               src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
               alt={movie.id}
@@ -66,9 +87,19 @@ const MovieDetails = () => {
             </h2>
             <hr />
             <p>{movie.overview}</p>
-            {movie?.genres?.map((genre, i) => {
-              return <p key={i}>{genre.name},</p>;
-            })}
+            <div className="inline-flex mb-3">
+              {movie?.genres?.map((genre, i) => {
+                return (
+                  <Chip
+                    color="info"
+                    size="small"
+                    label={genre.name}
+                    key={i}
+                    className="w-max mx-1"
+                  />
+                );
+              })}
+            </div>
             {!isMovieFavorite ? (
               <button
                 className="btn btn-primary w-max"
@@ -83,6 +114,29 @@ const MovieDetails = () => {
               >
                 Remove from favorite
               </button>
+            )}
+          </div>
+        </div>
+        <hr className="my-20" />
+        <Headline title="Movie Insights" />
+        {movieVideo && parse(movieVideo)}
+        <div className="row mx-0">
+          <div className="col-12 col-md-6 ">
+            <h2>Photo Gallery</h2>
+            {!isLoading && <MovieThumbsSlider movie={movie} />}
+          </div>
+          <div className="col-12 col-md-6 text-end">
+            <h2>Trailer</h2>
+            {!isLoading2 && (
+              <iframe
+                src={`https://www.youtube.com/embed/${trailerKey}`}
+                allowFullScreen={false}
+                width="100%"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                height="380px"
+                frameBorder="0"
+                title={trailerKey}
+              ></iframe>
             )}
           </div>
         </div>
