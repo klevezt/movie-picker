@@ -58,7 +58,7 @@ const MovieDetails = () => {
       }
       return false;
     });
-  }, [favorite, params]);
+  }, [params]);
 
   const handleAddFavorite = () => {
     dispatch(addFavoriteMovie(movie));
@@ -74,14 +74,14 @@ const MovieDetails = () => {
   return (
     <>
       <MainSection className="bg-white min-h-[100vh] mb-0">
-        <div className="flex">
-          <div className="basis-1/3">
+        <div className="flex flex-wrap">
+          <div className="md:basis-1/3 mb-8">
             <img
               src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
               alt={movie.id}
             />
           </div>
-          <div className="flex flex-col basis-2/3 px-20">
+          <div className="flex flex-col md:basis-2/3 md:px-20">
             <h2 className="text-5xl">
               {movie.original_title}({movie.release_date?.split("-")[0]})
             </h2>
@@ -119,14 +119,13 @@ const MovieDetails = () => {
         </div>
         <hr className="my-20" />
         <Headline title="Movie Insights" />
-        {movieVideo && parse(movieVideo)}
         <div className="row mx-0">
-          <div className="col-12 col-md-6 ">
-            <h2>Photo Gallery</h2>
+          <div className="col-12 col-md-6 mb-5 ">
+            <h2 className="mb-6 md:mb-0"> Photo Gallery</h2>
             {!isLoading && <MovieThumbsSlider movie={movie} />}
           </div>
-          <div className="col-12 col-md-6 text-end">
-            <h2>Trailer</h2>
+          <div className="col-12 col-md-6 md:text-end mb-5">
+            <h2 className="mb-6 md:mb-0">Trailer</h2>
             {!isLoading2 && (
               <iframe
                 src={`https://www.youtube.com/embed/${trailerKey}`}
@@ -140,6 +139,14 @@ const MovieDetails = () => {
             )}
           </div>
         </div>
+        {movieVideo && (
+          <div className="row px-0">
+            <div className="col-12">
+              <h2 className=" mb-6 md:mb-0">Movie</h2>
+              {parse(movieVideo)}
+            </div>
+          </div>
+        )}
       </MainSection>
     </>
   );

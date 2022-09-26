@@ -9,16 +9,16 @@ const Favorite = () => {
   const favoriteMovies = favorite?.map((movie) => {
     return (
       <div
-        className="flex justify-around shadow my-5 p-10 bg-white rounded"
+        className="flex flex-wrap justify-around shadow my-5 p-10 bg-white rounded"
         key={movie.id}
       >
-        <div className="basis-1/4">
+        <div className="md:basis-1/4 mb-4">
           <img
             src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
             alt={movie.id}
           />
         </div>
-        <div className="basis-2/4 ">
+        <div className="md:basis-2/4 ">
           <h2 className="text-5xl">{movie.original_title}</h2>
           <p>{movie.overview}</p>
           <NavLink to={`/movie/${movie.id}`} className="btn btn-primary w-max">View Details</NavLink>

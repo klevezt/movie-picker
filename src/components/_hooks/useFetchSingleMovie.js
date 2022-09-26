@@ -10,7 +10,6 @@ const useFetchSingleMovie = (url) => {
     setIsLoading(true);
     const res = await fetch(`${url}?api_key=${API_KEY}`);
     const resData = await res.json();
-    console.log(resData);
     setData(resData);
     setIsLoading(false);
   }, [url]);
