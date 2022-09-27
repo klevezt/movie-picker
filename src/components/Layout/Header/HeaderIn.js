@@ -138,7 +138,7 @@ const Header = () => {
             </div>
           </div>
           {searchResultsTabOpen && searchResults && (
-            <div className="absolute top-100  p-2.5 right-0 left-0 bg-white pb-20 border-2 border-rose">
+            <div className="absolute top-100  p-2.5 right-0 left-0 bg-white pb-20 border-2 border-rose shadow-lg">
               <h2 className="text-rose text-5xl px-10 py-3.5 border-b-2 border-rose">Results</h2>
               <div
                 className={`overflow-y-scroll max-h-[70vh] text-black ${styles["hide-scrolbar"]}`}

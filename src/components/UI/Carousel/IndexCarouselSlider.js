@@ -6,7 +6,6 @@ import SkeletonWithImage from "../Skeleton/SkeletonWithImage";
 import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux";
-import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 const IndexCarouselSlider = ({
@@ -113,7 +112,7 @@ const IndexCarouselSlider = ({
         <Swiper
           onSwiper={setSwiperRef}
           centeredSlides={false}
-          slidesPerView={5}
+          slidesPerView={8}
           spaceBetween={5}
           speed={1000}
           lazy
