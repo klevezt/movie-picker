@@ -62,17 +62,19 @@ const Register = () => {
             zIndex: "-1",
           }}
         ></div>
-        <div className="absolute right-[5vw] top-[50%] w-[35vw] -translate-y-1/2 bg-customDark rounded shadow text-white">
-          <form className="p-10" onSubmit={handleFormSubmit}>
-            <h2 className="text-5xl text-center">Join our exclusive club</h2>
-            <hr className="my-10" />
+        <div className="absolute right-[5vw] top-[100px] md:top-[50%] w-[90vw] md:w-[35vw] md:-translate-y-1/2 bg-customDark rounded shadow text-white">
+          <form className="p-6 md:p-10" onSubmit={handleFormSubmit}>
+            <h2 className="text-3xl md:text-5xl text-center">
+              Join our exclusive club
+            </h2>
+            <hr className="my-3.5 md:my-10" />
             <div className="row g-3 align-items-center mb-4">
-              <div className="col-4">
+              <div className="col-12 col-sm-4">
                 <label htmlFor="inputUsername" className="text-2xl">
                   Email
                 </label>
               </div>
-              <div className="col-8">
+              <div className="col-12 col-sm-8">
                 <input
                   type="email"
                   id="inputUsername"
@@ -85,12 +87,12 @@ const Register = () => {
               </div>
             </div>
             <div className="relative row g-3 align-items-center mb-4 ">
-              <div className="col-4">
+              <div className="col-12 col-sm-4">
                 <label htmlFor="inputPassword" className="text-2xl">
                   Password
                 </label>
               </div>
-              <div className="col-8">
+              <div className="col-12 col-sm-8">
                 <input
                   type="password"
                   id="inputPassword"
@@ -103,7 +105,7 @@ const Register = () => {
                   required
                 />
               </div>
-              <div className="absolute -right-10 top-0 w-auto">
+              <div className="absolute right-0 md:-right-10 top-0 w-auto">
                 <Tooltip title="Check our tool for creating strong passwords">
                   <a
                     href="https://generator.kpwork.site/"
@@ -116,7 +118,7 @@ const Register = () => {
                   </a>
                 </Tooltip>
               </div>
-              <div className="offset-4 col-auto">
+              <div className="offset-sm-4 col-auto">
                 <ul className="text-start p-0">
                   <PasswordCondition
                     text="Must contain uppecase."

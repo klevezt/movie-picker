@@ -69,13 +69,16 @@ const IndexCarouselSlider = ({
       ) : authenticated ? (
         <Swiper
           onSwiper={setSwiperRef}
-          slidesPerView={8}
           spaceBetween={5}
           virtual
           lazy
           navigation={true}
           speed={1000}
           breakpoints={{
+            0: {
+              slidesPerView: 2,
+              spaceBetween: 2,
+            },
             475: {
               slidesPerView: 2,
               spaceBetween: 2,
@@ -93,6 +96,7 @@ const IndexCarouselSlider = ({
               spaceBetween: 5,
             },
           }}
+          slidesPerView={2}
           dir={direction}
           autoplay={{
             delay: 2000,
@@ -108,23 +112,31 @@ const IndexCarouselSlider = ({
       ) : (
         <Swiper
           onSwiper={setSwiperRef}
-          centeredSlides={true}
+          centeredSlides={false}
           slidesPerView={5}
-          spaceBetween={30}
+          spaceBetween={5}
           speed={1000}
           lazy
           breakpoints={{
-            640: {
+            0: {
               slidesPerView: 2,
-              spaceBetween: 20,
+              spaceBetween: 2,
+            },
+            475: {
+              slidesPerView: 2,
+              spaceBetween: 2,
+            },
+            640: {
+              slidesPerView: 4,
+              spaceBetween: 2,
             },
             768: {
-              slidesPerView: 4,
-              spaceBetween: 40,
+              slidesPerView: 6,
+              spaceBetween: 4,
             },
             1024: {
-              slidesPerView: 5,
-              spaceBetween: 50,
+              slidesPerView: 8,
+              spaceBetween: 5,
             },
           }}
           slideToClickedSlide

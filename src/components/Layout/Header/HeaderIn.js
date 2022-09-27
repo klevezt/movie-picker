@@ -1,13 +1,18 @@
-import { Search } from "@mui/icons-material";
-import { AppBar, Container, Toolbar } from "@mui/material";
-import React, { useRef, useState } from "react";
+import { Close, Search } from "@mui/icons-material";
+import { AppBar, Container, IconButton, Toolbar } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logoutUser } from "../../../store/slices/userSlice";
+import styles from "./Header.module.css";
 
 const Header = () => {
-  const [searchFocused, setSearchFocused] = useState(false);
-  const searchRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+  const [searchResultsTabOpen, setSearchResultsTabOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const [searchResults, setSearchResults] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -16,11 +21,42 @@ const Header = () => {
   };
 
   const searchFocus = () => {
-    setSearchFocused(true);
+    setSearchResultsTabOpen(true);
   };
   const searchBlur = () => {
-    setSearchFocused(false);
+    setSearchResultsTabOpen(false);
   };
+  const handleClearSearch = () => {
+    setSearch("");
+  };
+
+  const handleSearchFinished = () => {
+    setSearchResultsTabOpen(false);
+    handleClearSearch();
+  };
+
+  useEffect(() => {
+    if (search !== "") setLoading(true);
+
+    setSearchResultsTabOpen(false);
+    const timer = setTimeout(() => {
+      if (search !== "") setSearchResultsTabOpen(true);
+      fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=d7b36846ca305b29b4f8d87c2585d2a0&query=${search}`
+      )
+        .then((data) => data.json())
+        .then((data) => {
+          setSearchResults(data.results);
+          setLoading(false);
+          console.log(data.results);
+          console.log("hahaha");
+        });
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [search]);
 
   return (
     <AppBar position="fixed">
@@ -51,16 +87,33 @@ const Header = () => {
               <input
                 type="text"
                 className="w-full pl-14 py-1.5 pr-6 rounded text-rose outline-0"
-                ref={searchRef}
-                size={31}
+                onFocus={searchFocus}
+                // onBlur={searchBlur}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
               <div
-                className={`absolute flex items-center justify-center px-3 left-0 top-1 bottom-1 w-auto  border-rose text-rose ${
-                  searchFocused ? "bg-rose text-white top-0 bottom-0" : ""
-                } rounded-tl rounded-bl`}
+                className={`absolute flex items-center justify-center px-3 left-0 top-1 bottom-1 w-auto  border-rose text-rose rounded-tl rounded-bl`}
               >
                 <Search sx={{ fontSize: "24px" }} />
               </div>
+              {loading && (
+                <div
+                  className={`absolute flex items-center justify-center px-3 right-0 top-1 bottom-1 w-auto  border-rose text-rose rounded-tl rounded-bl`}
+                >
+                  <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              )}
+              {!loading && search !== "" && (
+                <div
+                  className={`absolute flex items-center justify-center px-3 right-0 top-1 bottom-1 w-auto  border-rose text-rose rounded-tl rounded-bl`}
+                  onClick={handleClearSearch}
+                >
+                  <Close sx={{ fontSize: "24px" }} />
+                </div>
+              )}
             </div>
 
             <div className="order-3">
@@ -84,6 +137,41 @@ const Header = () => {
               </ul>
             </div>
           </div>
+          {searchResultsTabOpen && searchResults && (
+            <div className="absolute top-100  p-2.5 right-0 left-0 bg-white pb-20 border-2 border-rose">
+              <h2 className="text-rose text-5xl px-10 py-3.5 border-b-2 border-rose">Results</h2>
+              <div
+                className={`overflow-y-scroll max-h-[70vh] text-black ${styles["hide-scrolbar"]}`}
+              >
+                {searchResults.map((result) => {
+                  return (
+                    <div
+                      className="flex flex-wrap justify-around items-center my-1 border-b-2 p-3.5 bg-white rounded"
+                      key={result.id}
+                    >
+                      <div className="md:basis-2/5 mb-3.5 md:mb-0">
+                        <img
+                          src={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
+                          alt={result.id}
+                        />
+                      </div>
+                      <div className="md:basis-3/5 px-10">
+                        <h2 className="text-5xl">{result.original_title}</h2>
+                        <p>{result.overview}</p>
+                        <NavLink
+                          to={`/movie/${result.id}`}
+                          className="btn btn-primary w-max"
+                          onClick={handleSearchFinished}
+                        >
+                          View Details
+                        </NavLink>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
