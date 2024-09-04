@@ -1,12 +1,5 @@
-import {
-  
-  Help,
-} from "@mui/icons-material";
-import {
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Help } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import useLengthValidator from "../../../_hooks/useValidator";
@@ -35,8 +28,7 @@ const Register = () => {
     setEmail(e.target.value);
   };
 
-  const isPasswordValid =
-    uppercaseSuccess && numberSuccess && specialSuccess && lengthSuccess;
+  const isPasswordValid = uppercaseSuccess && numberSuccess && specialSuccess && lengthSuccess;
 
   const isEmailValid = email.includes("@");
 
@@ -64,9 +56,7 @@ const Register = () => {
         ></div>
         <div className="absolute right-[5vw] top-[100px] md:top-[50%] w-[90vw] md:w-[35vw] md:-translate-y-1/2 bg-customDark rounded shadow text-white">
           <form className="p-6 md:p-10" onSubmit={handleFormSubmit}>
-            <h2 className="text-3xl md:text-5xl text-center">
-              Join our exclusive club
-            </h2>
+            <h2 className="text-3xl md:text-5xl text-center">Join our exclusive club</h2>
             <hr className="my-3.5 md:my-10" />
             <div className="row g-3 align-items-center mb-4">
               <div className="col-12 col-sm-4">
@@ -107,11 +97,7 @@ const Register = () => {
               </div>
               <div className="absolute right-0 md:-right-10 top-0 w-auto">
                 <Tooltip title="Check our tool for creating strong passwords">
-                  <a
-                    href="https://generator.kpwork.site/"
-                    target={"_blank"}
-                    rel="noreferrer"
-                  >
+                  <a href="https://generator.kpwork.site/" target={"_blank"} rel="noreferrer">
                     <IconButton>
                       <Help sx={{ color: "white" }} />
                     </IconButton>

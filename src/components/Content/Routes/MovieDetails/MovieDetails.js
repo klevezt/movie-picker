@@ -2,10 +2,7 @@ import { Chip } from "@mui/material";
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import {
-  addFavoriteMovie,
-  removeFavoriteMovie,
-} from "../../../../store/slices/moviesSlice";
+import { addFavoriteMovie, removeFavoriteMovie } from "../../../../store/slices/moviesSlice";
 import { MovieThumbsSlider } from "../../../UI/Carousel/MovieThumbsSlider";
 import Headline from "../../../UI/Section/Headline";
 import MainSection from "../../../_hoc/MainSection";
@@ -56,7 +53,7 @@ const MovieDetails = () => {
       }
       return false;
     });
-  }, [params, movieVideo]);
+  }, [params, movieVideo, favorite]);
 
   const handleAddFavorite = () => {
     dispatch(addFavoriteMovie(movie));
@@ -99,17 +96,11 @@ const MovieDetails = () => {
               })}
             </div>
             {!isMovieFavorite ? (
-              <button
-                className="btn btn-primary w-max"
-                onClick={handleAddFavorite}
-              >
+              <button className="btn btn-primary w-max" onClick={handleAddFavorite}>
                 Add to favorite
               </button>
             ) : (
-              <button
-                className="btn btn-danger w-max"
-                onClick={() => handleRemoveFavorite(movie)}
-              >
+              <button className="btn btn-danger w-max" onClick={() => handleRemoveFavorite(movie)}>
                 Remove from favorite
               </button>
             )}

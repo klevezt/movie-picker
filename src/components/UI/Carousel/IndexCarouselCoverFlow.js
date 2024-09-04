@@ -6,21 +6,13 @@ import SkeletonWithImage from "../Skeleton/SkeletonWithImage";
 import { EffectCoverflow, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const IndexCarouselCoverFlow = ({
-  isLoading,
-  content,
-  headline,
-  className,
-}) => {
+const IndexCarouselCoverFlow = ({ isLoading, content, headline, className }) => {
+  // eslint-disable-next-line no-unused-vars
   const [swiperRef, setSwiperRef] = useState(null);
 
   const carouselMovies = content.map((movie, i) => {
     return (
-      <SwiperSlide
-        key={movie.id}
-        virtualIndex={i}
-        className="swiper-no-swiping"
-      >
+      <SwiperSlide key={movie.id} virtualIndex={i} className="swiper-no-swiping">
         <img
           src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
           alt={`movie-${movie.title}`}

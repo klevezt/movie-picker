@@ -1,6 +1,6 @@
 import { Close, Search } from "@mui/icons-material";
-import { AppBar, Container, IconButton, Toolbar } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { AppBar, Container, Toolbar } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logoutUser } from "../../../store/slices/userSlice";
@@ -20,12 +20,12 @@ const Header = () => {
     dispatch(logoutUser());
   };
 
-  const searchFocus = () => {
-    setSearchResultsTabOpen(true);
-  };
-  const searchBlur = () => {
-    setSearchResultsTabOpen(false);
-  };
+  // const searchFocus = () => {
+  //   setSearchResultsTabOpen(true);
+  // };
+  // const searchBlur = () => {
+  //   setSearchResultsTabOpen(false);
+  // };
   const handleClearSearch = () => {
     setSearch("");
   };
@@ -87,7 +87,7 @@ const Header = () => {
               <input
                 type="text"
                 className="w-full pl-14 py-1.5 pr-6 rounded text-rose outline-0"
-                onFocus={searchFocus}
+                // onFocus={searchFocus}
                 // onBlur={searchBlur}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}

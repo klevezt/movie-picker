@@ -1,14 +1,12 @@
-import { KeyboardArrowUp } from '@mui/icons-material';
-import { Fab } from '@mui/material';
-import React from 'react'
-import ScrollToTop from './ScrollToTop';
+import { KeyboardArrowUp } from "@mui/icons-material";
+import { Fab } from "@mui/material";
+import React from "react";
+import ScrollToTop from "./ScrollToTop";
 
 const Footer = () => {
   return (
-    <div className="flex items-center justify-center h-[4vh] bg-customDark text-white">
-      <p className=" m-0">
-        {new Date().getFullYear()} &copy; KP Work. All rights reserved.
-      </p>
+    <footer className="flex items-center justify-center h-[4vh] bg-customDark text-white bottom-0 absolute w-full">
+      <p className=" m-0">{new Date().getFullYear()} &copy; KP Work. All rights reserved.</p>
       <ScrollToTop>
         <Fab
           sx={{
@@ -20,8 +18,8 @@ const Footer = () => {
           <KeyboardArrowUp />
         </Fab>
       </ScrollToTop>
-    </div>
+    </footer>
   );
-}
+};
 
-export default Footer
+export default Footer;

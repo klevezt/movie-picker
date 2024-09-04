@@ -10,9 +10,7 @@ const useFetch = (url, params = "", pages = 20) => {
     const newArr = [];
 
     for (let index = 1; index <= pages; index++) {
-      const res = await fetch(
-        `${url}?api_key=${API_KEY}&page=${index}&${params.toString()}`
-      );
+      const res = await fetch(`${url}?api_key=${API_KEY}&page=${index}&${params.toString()}`);
       const resData = await res.json();
       newArr.push(...resData.results);
     }

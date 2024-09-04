@@ -16,6 +16,7 @@ const IndexCarouselSlider = ({
   reverseDirection,
   direction,
 }) => {
+  // eslint-disable-next-line no-unused-vars
   const [swiperRef, setSwiperRef] = useState(null);
   const authenticated = useSelector((state) => state.user.authenticated);
 

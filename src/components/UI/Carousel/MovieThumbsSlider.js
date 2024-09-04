@@ -20,6 +20,7 @@ export const MovieThumbsSlider = ({ movie }) => {
   const fetchRef = useRef(() => {});
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [images, isLoading, list] = useFetchSingleMovie(
     `https://api.themoviedb.org/3/movie/${movie.id}/images`
   );

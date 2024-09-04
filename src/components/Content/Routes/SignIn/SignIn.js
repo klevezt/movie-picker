@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { authenticateUser } from "../../../../store/slices/userSlice";
@@ -41,9 +41,7 @@ const SignIn = () => {
         ></div>
         <div className="absolute left-[5vw] top-[100px] md:top-[50%] w-[90vw] md:w-[35vw]  md:-translate-y-1/2 bg-customDark rounded shadow text-white">
           <form className="p-6 md:p-10" onSubmit={handleAuthentication}>
-            <h2 className="text-3xl md:text-5xl text-center">
-              Enjoy the latest movies{" "}
-            </h2>
+            <h2 className="text-3xl md:text-5xl text-center">Enjoy the latest movies </h2>
             <hr className="my-3.5 md:my-10" />
             <div className="row g-3 align-items-center mb-4">
               <div className="col-12 col-sm-4">

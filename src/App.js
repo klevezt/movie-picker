@@ -6,18 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Routes from "./components/Content/Routes/Routes";
 import { useRef } from "react";
 import useFetch from "./components/_hooks/useFetch";
-import {
-  setActionMovies,
-  setHorrorMovies,
-  setPopularMovies,
-} from "./store/slices/moviesSlice";
+import { setActionMovies, setHorrorMovies, setPopularMovies } from "./store/slices/moviesSlice";
 import { useEffect } from "react";
 import { useCallback } from "react";
 
 const theme = createTheme({
   typography: {
     fontFamily: [
-      "Lobster",
+      "Noto Sans",
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',
@@ -45,12 +41,14 @@ const App = () => {
   const fetchRef = useRef(() => {});
   const dispatch = useDispatch();
 
+  // eslint-disable-next-line no-unused-vars
   const [popularMovies, isLoading, list] = useFetch(
     `https://api.themoviedb.org/3/movie/popular`,
     "",
     10
   );
 
+  // eslint-disable-next-line no-unused-vars
   const [actionMovies, isLoading2, list2] = useFetch(
     `https://api.themoviedb.org/3/discover/movie`,
     new URLSearchParams({
@@ -58,6 +56,7 @@ const App = () => {
     }),
     10
   );
+  // eslint-disable-next-line no-unused-vars
   const [horrorMovies, isLoading3, list3] = useFetch(
     `https://api.themoviedb.org/3/discover/movie`,
     new URLSearchParams({
@@ -82,14 +81,13 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <div
-        className="min-h-[100vh] h-full"
+        className="min-h-[100vh] h-full relative"
         style={{
           backgroundRepeat: "repeat",
           width: "100%",
           backgroundSize: "cover",
           backgroundPosition: "center center",
           backgroundImage: "url(assets/images/background.jpg)",
-          zIndex: "-1",
         }}
       >
         {authenticated ? <HeaderIn /> : <HeaderOut />}
